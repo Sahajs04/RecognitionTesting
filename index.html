@@ -190,7 +190,7 @@
 
         async function fetchNamesAndImages() {
             const { data, error } = await supabase
-                .from('RecognitionPictures')
+                .from('Recognition Pictures')
                 .select('Name, Base64');
 
             if (error) {
