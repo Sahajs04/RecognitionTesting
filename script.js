@@ -1,4 +1,4 @@
-import { createClient } from 'https://unpkg.com/@supabase/supabase-js@latest';
+import { createClient } from '@supabase/supabase-js';
 
 // Initialize Supabase
 const supabaseUrl = 'https://vrszetgxfqizfjbrtscw.supabase.co'; // Replace with your Supabase URL
