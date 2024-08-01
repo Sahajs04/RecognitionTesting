@@ -1,8 +1,8 @@
 import { createClient } from 'https://unpkg.com/@supabase/supabase-js@latest';
 
 // Initialize Supabase
-const supabaseUrl = 'https://xyzcompany.supabase.co'; // Replace with your Supabase URL
-const supabaseKey = 'your-anon-key'; // Replace with your Supabase anon key
+const supabaseUrl = 'https://vrszetgxfqizfjbrtscw.supabase.co'; // Replace with your Supabase URL
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZyc3pldGd4ZnFpemZqYnJ0c2N3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjI0MzM3NTksImV4cCI6MjAzODAwOTc1OX0.LSbGcs2UieCXM_pPoXiDLC_gBXxyno7W-8q85mRBDh8'; // Replace with your Supabase anon key
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const requiredColumns = ['ID', 'Please describe why they deserve recognition', 'Your name', 'Who are you recognizing?'];
@@ -13,7 +13,7 @@ document.getElementById('fileInput').addEventListener('change', handleFile, fals
 
 async function fetchNamesAndImages() {
     const { data, error } = await supabase
-        .from('RecognitionPictures')
+        .from('Recognition Pictures')
         .select('Name, Base64');
 
     if (error) {
