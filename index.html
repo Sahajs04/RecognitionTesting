@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="https://www.stryker.com/content/dam/stryker/global/icons/favicon-32x32.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="https://www.stryker.com/content/dam/stryker/global/icons/favicon-16x16.png"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recognition Dashboard</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .input-container {
+            margin: 20px 0;
+        }
+        .input-container label, .input-container input {
+            display: block;
+            margin: 5px 0;
+        }
+        .recognition-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            width: 98vw;
+            grid-auto-flow: row dense;
+        }
+        .recognition-item {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgb(255, 181, 0);
+            background: white;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            box-sizing: border-box;
+            min-width: 250px;
+            min-height: 100px;
+            max-height: 300px;
+            overflow: auto;
+        }
+        .recognition-text {
+            margin-top: 10px;
+            flex-grow: 1;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
+        }
+        .recognition-images img {
+            width: 47px;
+            height: 47px;
+            margin-right: 5px;
+            border-radius: 50%;
+            flex-grow: 1;
+        }
+        .recognition-names {
+            margin-top: 10px;
+            font-weight: bold;
+            color: rgb(255, 181, 0);
+            flex-grow: 1;
+        }
+        .choose-file {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #f4f4f4;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 25px;
+        }
+        .choose-file:hover {
+            background-color: rgb(255, 181, 0);
+            color: white;
+        }
+        .choose-file:active {
+            transform: scale(0.95);
+        }
+        .top-right-logo {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 50px;
+            width: auto;
+            margin-top: 20px;
+            margin-left: 5px;
+        }
+        .menu-icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 18px;
+            text-decoration: none;
+            color: rgb(0, 0, 0);
+            border: 1px solid rgb(0, 0, 0);
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .menu-icon:hover {
+            background-color: rgb(255, 181, 0);
+            color: #FFF;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 40px;
+            left: 10px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            padding: 10px;
+            width: 300px;
+        }
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: black;
+        }
+        .dropdown-menu a:hover {
+            background-color: #f0f0f0;
+        }
+        .dropdown-menu form {
+            display: flex;
+            flex-direction: column;
+        }
+        .dropdown-menu form input, .dropdown-menu form button {
+            margin: 5px 0;
+        }
+        .warning-message {
+            color: red;
+            margin-top: 10px;
+            display: none;
+        }
+        .col-span-2 {
+            grid-column: span 2;
+        }
+        .col-span-3 {
+            grid-column: span 3;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+    <div class="dropdown-menu" id="dropdownMenu">
+        <a href="https://stryker-my.sharepoint.com/:w:/p/sahaj_singh/ESZHHxOY3plBkhR359zUaGwBpwFO5029MCUuP0QRYts2NA?e=gKrRyz" target="_blank" class="top-left-link">Guidance Document</a>
+        <form id="addPersonForm">
+            <h3>Add/Remove Person</h3>
+            <label for="personName">Name:</label>
+            <input type="text" id="personName" required>
+            <label for="personImage">Base64 Image:</label>
+            <input type="text" id="personImage" required>
+            <button type="button" onclick="addPerson()">Add</button>
+            <button type="button" onclick="removePerson()">Remove</button>
+        </form>
+    </div>
+    <h1><span style="color: rgb(255, 181, 0);">Recognition- </span> Words From One Another</h1>
+    <label for="fileInput" class="choose-file">Choose File</label>
+    <input type="file" id="fileInput" style="display: none;" />
+    <div class="warning-message" id="warningMessage"></div>
+    <div class="recognition-container" id="recognitionContainer"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js"></script>
+    <script src="script.js" type="module"></script>
+    <img src="https://stepstocuresarcoma.com/wp-content/uploads/2017/04/logo-stryker-no-background-gif.png" class="top-right-logo" />
+</body>
+</html>
